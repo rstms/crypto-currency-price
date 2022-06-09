@@ -26,7 +26,10 @@ def test_content(response):
 
 def test_version():
     """Test reading version and module name"""
-    assert crypto_currency_price.__name__ == "crypto_currency_price.crypto_currency_price"
+    assert (
+        crypto_currency_price.__name__
+        == "crypto_currency_price.crypto_currency_price"
+    )
     assert __version__
     assert isinstance(__version__, str)
 
