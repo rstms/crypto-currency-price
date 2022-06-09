@@ -35,8 +35,8 @@ def test_command_line_interface():
     """Test the CLI."""
     runner = CliRunner()
     result = runner.invoke(cli)
-    assert result.exit_code != 0, result
-    assert "crypto_currency_price" in result.output
+    assert result.exit_code == 0, result
+    assert "ccp converts prices" in result.output
 
     result = runner.invoke(cli, ["--help"])
     assert result.exit_code == 0, result
