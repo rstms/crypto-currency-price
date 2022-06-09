@@ -4,7 +4,7 @@
 .PHONY: dist 
 dist: .dist
 .dist:	gitclean tox
-	@echo Building $(project)
+	@echo Building $(project_name)
 	pip wheel -w dist .
 	@touch $@
 
@@ -16,12 +16,12 @@ release_args = '{\
   "draft": false,\
   "prerelease": false\
 }'
-release_url = https://api.github.com/repos/$(organization)/$(project)/releases
+release_url = https://api.github.com/repos/$(organization)/$(project_name)/releases
 release_header = -H 'Authorization: token ${GITHUB_TOKEN}'
 
 # create a github release from the current version
 release: dist 
-	@echo pushing Release $(project) v$(version) to github...
+	@echo pushing Release $(project_name) v$(version) to github...
 	curl $(release_header) --data $(release_args) $(release_url)
 
 # publish to pypi
@@ -30,16 +30,16 @@ publish: release
 	@set -e;\
 	if [ "$(version)" != "$(pypi_version)" ]; then \
 	  $(call verify_action,publish to PyPi) \
-	  echo publishing $(project) $(version) to PyPI...;\
+	  echo publishing $(project_name) $(version) to PyPI...;\
 	  flit publish;\
 	else \
-	  echo $(project) $(version) is up-to-date on PyPI;\
+	  echo $(project_name) $(version) is up-to-date on PyPI;\
 	fi
 
 # check current pypi version 
 pypi-check:
 	$(call require_pypi_config)
-	@echo '$(project) local=$(version) pypi=$(call check_pypi_version)'
+	@echo '$(project_name) local=$(version) pypi=$(call check_pypi_version)'
 
 # clean up publish generated files
 publish-clean:
@@ -51,7 +51,7 @@ define require_pypi_config =
 $(if $(wildcard ~/.pypirc),,$(error publish failed; ~/.pypirc required))
 endef
 
-pypi_version := $(shell pip install $(project)==fnord.plough.plover.xyzzy 2>&1 |\
+pypi_version := $(shell pip install $(project_name)==fnord.plough.plover.xyzzy 2>&1 |\
   awk -F'[,() ]' '/^ERROR: Could not find a version .* \(from versions:.*\)/{print $$(NF-1)}')
 
 define check_null =

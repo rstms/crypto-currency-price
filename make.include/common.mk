@@ -2,6 +2,7 @@
 
 project = crypto_currency_price
 organization = rstms
+project_name = $(shell echo $(project) | tr _ -)
 branch != git branch | awk '/\*/{print $$2}'
 version != awk <$(project)/version.py -F\" '/^__version__/{print $$2}'
 python_src != find . -name \*.py
@@ -44,5 +45,5 @@ included = $(foreach file,$(makefiles),$(shell sed <$(file) -n 's/^\([[:alnum:]_
 # break if not in virtualenv (override with make require_virtualenv=no <TARGET>)
 ifndef virtualenv
   virtualenv = $(if $(filter $(require_virtualenv),no),not required,$(shell which python | grep -E virt\|venv))
-  $(if $(virtualenv),$(info virtualenv: $(virtualenv)),$(error virtualenv not detected))
+  $(if $(virtualenv),,$(error virtualenv not detected))
 endif

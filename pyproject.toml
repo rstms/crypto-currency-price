@@ -10,7 +10,7 @@ name = "crypto_currency_price"
 authors = [{name = "Matt Krueger", email = "mkrueger@rstms.net"}]
 readme = {file = "README.md", content-type = "text/markdown"}
 license = {file = "LICENSE"}
-keywords = ["crypto_currency_price"]
+keywords = ["cryptocurrency price CLI"]
 classifiers = [
   "Intended Audience :: Developers",
   "Natural Language :: English", 
